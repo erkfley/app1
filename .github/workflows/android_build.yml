@@ -1,19 +1,41 @@
 name: Android Build
+
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-      - run: chmod +x ./gradlew
-      - run: ./gradlew assembleDebug
-      - uses: actions/upload-artifact@v4
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+        with:
+          android-version: 36
+          build-tools-version: 34.0.0
+          ndk-version: 26.1.10559344
+          cmake-version: 3.22.1
+
+      - name: Build with Gradle
+        run: |
+          chmod +x ./gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        if: success()
         with:
           name: volume-booster-debug
           path: app/build/outputs/apk/debug/*.apk
