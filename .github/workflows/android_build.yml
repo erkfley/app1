@@ -1,41 +1,19 @@
-name: Android CI/CD
-
+name: Android Build
 on:
   push:
     branches: [ main ]
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup JDK
-        uses: actions/setup-java@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-
-      - name: Install Android SDK
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y wget unzip
-          wget https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip
-          unzip commandlinetools-linux-10406996_latest.zip
-          mkdir -p ~/android-sdk/cmdline-tools/latest
-          mv cmdline-tools/* ~/android-sdk/cmdline-tools/latest/
-          export ANDROID_SDK_ROOT=~/android-sdk
-          yes | ~/android-sdk/cmdline-tools/latest/bin/sdkmanager --sdk_root=~/android-sdk "platforms;android-36" "build-tools;34.0.0"
-
-      - name: Build APK
-        run: |
-          export ANDROID_SDK_ROOT=~/android-sdk
-          chmod +x ./gradlew
-          ./gradlew assembleDebug
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
+      - run: chmod +x ./gradlew
+      - run: ./gradlew assembleDebug
+      - uses: actions/upload-artifact@v4
         with:
           name: volume-booster-debug
           path: app/build/outputs/apk/debug/*.apk
