@@ -35,7 +35,7 @@ jobs:
 
       - name: Build with Gradle
         run: |
-          wget https://raw.githubusercontent.com/gradle/gradle/v8.3.2/gradle/wrapper/gradle-wrapper.jar -O gradle/wrapper/gradle-wrapper.jar
+          python3 -c "import urllib.request; urllib.request.urlretrieve('https://raw.githubusercontent.com/gradle/gradle/master/gradle/wrapper/gradle-wrapper.jar', 'gradle/wrapper/gradle-wrapper.jar')"
           chmod +x ./gradlew
           ./gradlew assembleDebug
         env:
