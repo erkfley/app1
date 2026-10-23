@@ -1,7 +1,6 @@
 # Android
 *.iml
 .idea/
-gradle/
 local.properties
 *.jks
 *.keystore
