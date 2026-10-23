@@ -23,10 +23,8 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
         with:
-          android-version: 36
-          build-tools-version: 34.0.0
-          ndk-version: 26.1.10559344
-          cmake-version: 3.22.1
+          api-level: 36
+          build-tools: 34.0.0
 
       - name: Build with Gradle
         run: |
