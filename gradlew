@@ -27,7 +27,7 @@
 # Attempt to set APP_HOME
 
 # Resolve the location of the 'gradle' script
-APP_BASE_NAME=${0}
+APP_BASE_NAME=$(basename "${0}")
 
 # Use the maximum available, or set MAX_FD != -1 to use that value.
 MAX_FD=maximum
@@ -47,6 +47,10 @@ case "$(uname -s)" in
   MSYS* | MINGW* )  msys=true       ;;
   NonStop* )        nonstop=true    ;;
 esac
+
+# Resolve the location of the 'gradle' script
+SCRIPT_DIR=$(cd "$(dirname "${0}")" && pwd -P)
+APP_HOME=$(cd "$SCRIPT_DIR/.." && pwd -P)
 
 CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
 
