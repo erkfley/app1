@@ -36,7 +36,9 @@ jobs:
       - name: Download Gradle Wrapper
         run: |
           cd $GITHUB_WORKSPACE
-          python3 -c "import urllib.request; urllib.request.urlretrieve('https://raw.githubusercontent.com/gradle/gradle/master/gradle/wrapper/gradle-wrapper.jar', 'gradle/wrapper/gradle-wrapper.jar')"
+          mkdir -p gradle/wrapper
+          python3 -c "import urllib.request; urllib.request.urlretrieve('https://raw.githubusercontent.com/gradle/gradle/master/gradle/wrapper/gradle-wrapper.jar', 'gradle/wrapper/gradle-wrapper.jar')" || true
+          ls -la gradle/wrapper/
 
       - name: Build with Gradle
         run: |
