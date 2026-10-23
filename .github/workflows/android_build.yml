@@ -35,12 +35,12 @@ jobs:
 
       - name: Download Gradle Wrapper
         run: |
+          cd $GITHUB_WORKSPACE
           python3 -c "import urllib.request; urllib.request.urlretrieve('https://raw.githubusercontent.com/gradle/gradle/master/gradle/wrapper/gradle-wrapper.jar', 'gradle/wrapper/gradle-wrapper.jar')"
 
       - name: Build with Gradle
         run: |
           chmod +x ./gradlew
-          cd $GITHUB_WORKSPACE
           ./gradlew assembleDebug
         env:
           ANDROID_SDK_ROOT: ${{ env.ANDROID_SDK_ROOT }}
