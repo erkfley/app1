@@ -33,9 +33,13 @@ jobs:
           echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
           echo "$ANDROID_SDK_ROOT/cmdline-tools/bin" >> $GITHUB_PATH
 
+      - name: Download Gradle Wrapper
+        run: |
+          mkdir -p gradle/wrapper
+          python3 -c "import urllib.request; urllib.request.urlretrieve('https://raw.githubusercontent.com/gradle/gradle/master/gradle/wrapper/gradle-wrapper.jar', 'gradle/wrapper/gradle-wrapper.jar')"
+
       - name: Build with Gradle
         run: |
-          python3 -c "import urllib.request; urllib.request.urlretrieve('https://raw.githubusercontent.com/gradle/gradle/master/gradle/wrapper/gradle-wrapper.jar', 'gradle/wrapper/gradle-wrapper.jar')"
           chmod +x ./gradlew
           ./gradlew assembleDebug
         env:
