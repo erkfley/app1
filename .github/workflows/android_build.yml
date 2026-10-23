@@ -26,16 +26,17 @@ jobs:
           wget https://dl.google.com/android/repository/commandlinetools-linux-10406996_latest.zip -O cmdline-tools.zip
           unzip cmdline-tools.zip -d $HOME/android-sdk/cmdline-tools/latest
           export ANDROID_SDK_ROOT=$HOME/android-sdk
-          ln -s $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager /usr/local/bin/sdkmanager
-          ln -s $ANDROID_SDK_ROOT/cmdline-tools/latest/bin/avdmanager /usr/local/bin/avdmanager
+          export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin
           mkdir -p $ANDROID_SDK_ROOT/licenses
           echo "d56f5187479451eabf01fbdd344900720562fd7f" > $ANDROID_SDK_ROOT/licenses/android-sdk-license
           echo "24333f8a63b6825ea9c5514f83c2829b004d1fee" > $ANDROID_SDK_ROOT/licenses/android-sdk-preview-license
           yes | sdkmanager --sdk_root=$ANDROID_SDK_ROOT --install "platforms;android-36" "build-tools;34.0.0" "platform-tools"
           echo "ANDROID_SDK_ROOT=$ANDROID_SDK_ROOT" >> $GITHUB_ENV
+          echo "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin" >> $GITHUB_PATH
 
       - name: Build with Gradle
         run: |
+          export PATH=$PATH:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin
           chmod +x ./gradlew
           ./gradlew assembleDebug
         env:
